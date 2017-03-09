@@ -51,28 +51,25 @@ class Movies extends Component {
 
     let response = this.state.response;
 
+     const moviePanel = response === undefined ?
+        <p>wait</p> :
+          response.results.map((movie, index) =>{
+            return <Movie 
+            title={movie.original_title}
+            releaseDate={movie.release_date}
+            overview={movie.overview}
+            posterPath={movie.poster_path}
+            backdropPath={movie.backdrop_path}
+            id={movie.id}
+            genreIds={movie.genre_ids}
+            userRating={movie.vote_average}
+            key={index}
+            index={index + 1}
+            />});
+
     return (
-      <div className="movie">
-          {response === undefined ?
-            <p>wait</p> :
-            <div>
-            {
-              response.results.map((movie, index) =>{
-               return <Movie 
-                title={movie.original_title}
-                releaseDate={movie.release_date}
-                overview={movie.overview}
-                posterPath={movie.poster_path}
-                backdropPath={movie.backdrop_path}
-                id={movie.id}
-                genreIds={movie.genre_ids}
-                userRating={movie.vote_average}
-                key={index}
-                index={index + 1}
-               />})
-            }
-            </div>
-          }
+      <div>
+         {moviePanel}
       </div>
     );
   }

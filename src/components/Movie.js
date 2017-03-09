@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
+import {getMovieDetails} from "../util/fetchUtil";
+
 // const tmdbURL = "https://api.themoviedb.org/3/movie/76341?api_key={api_key}";
 // const omdbURL = "http://www.omdbapi.com/?";
 
 // Containst api_key
-const api_key = "?api_key=4a49da4a24dd25aba0ffba3f451d1f60";
 const imgURL = "https://image.tmdb.org/t/p/w500";
 const movieURL = "https://api.themoviedb.org/3/"
 
@@ -17,30 +18,22 @@ class Movie extends Component {
     this.state = {
       expanded: false,
       response: {}};
+    
+    this.getMovieDetails = getMovieDetails.bind(this);
+  }
+
+   componentWillMount() {
+    if (!this.props.id) {
+      return;
+    }
+    this.getMovieDetails(this.props.id);
   }
 
   componentWillReceiveProps(nextProps) {
     if (!nextProps.id) {
       return;
     }
-    const init = {
-      mode: 'cors'
-    };
-    fetch(new Request("movie/" + nextProps.id + "" + api_key))
-      .then((response) => {
-        return Promise.resolve(response);
-      }) 
-      .then((value) => {
-        return value.json();
-      })
-      .then((parsed) => {
-        this.setState({
-          expanded: this.state.expanded,
-          response: parsed});
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this.getMovieDetails(nextProps.id);
   }
 
   render() {
@@ -71,9 +64,22 @@ class Movie extends Component {
           </div>
       </div>;
 
-    const collapsed = <div>
-        <h2>{index + "  --  " + title + " (" + releaseDate + ")  -- " }<b>{userRating}</b></h2>
-    </div>;
+    let names;
+    if (this.state.response.cast) {
+      names = this.state.response.cast[0].name + ", " + this.state.response.cast[1].name;
+    }
+
+    /*const collapsed = <div>
+        <h2>{index + "  --  " + title + " (" + releaseDate + ")  -- " }<b>{userRating}</b> {names}</h2>
+    </div>;*/
+
+    const collapsed = 
+    <a className="panel-block is-active">
+        <span className="panel-icon">
+          <i className="fa fa-book"></i>
+        </span>
+        <b>{title}</b> {" (" + new Date(releaseDate).getFullYear() + ")  -- " } {names}
+    </a>;
 
     return (
       <a onClick={() => {this.setState({expand: !this.state.expand, response: this.state.response})}}>

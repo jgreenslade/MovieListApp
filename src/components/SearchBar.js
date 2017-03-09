@@ -17,17 +17,22 @@ class SearchBar extends Component {
     let searchValue = this.state.title;
 
     return (
-      <div className="movie">
-        <input type="search" id="search-bar" />
-        <button onClick={() => {
-            this.setState({title: document.getElementById('search-bar').value});
-        }}>
-            search
-        </ button>
-        <Movies
-            title={searchValue}
-        />
-      </div>
+    <a className="nav-item">
+        <p className="control has-addons">
+                <input className="input" type="search" id="search-bar" placeholder="Search for Movies..."/>
+                <button className="button" onClick={() => {
+                    this.setState({title: document.getElementById('search-bar').value});
+                }}>search</ button>
+            </p>
+        <nav className="panel">
+        <div className="panel-block">
+            </div>
+            <Movies
+                title={searchValue}
+            />
+        
+        </nav>
+      </a>
     );
   }
 }

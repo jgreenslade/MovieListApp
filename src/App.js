@@ -5,16 +5,19 @@ import './App.css';
 import Movies from "./components/Movies";
 import SearchBar from "./components/SearchBar";
 
+import 'bulma/css/bulma.css'
+
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <nav className="nav">
+        <div className="nav-left">
+          <a className="nav-item">
+            <h2>Movie List App V1</h2>
+          </a>
           <SearchBar />
         </div>
-      </div>
+      </nav>
     );
   }
 }
