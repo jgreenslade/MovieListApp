@@ -4,13 +4,44 @@ import React, { Component } from 'react';
 // const omdbURL = "http://www.omdbapi.com/?";
 
 // Containst api_key
-const tmdbURL = "https://api.themoviedb.org/3/";
+const api_key = "?api_key=4a49da4a24dd25aba0ffba3f451d1f60";
 const imgURL = "https://image.tmdb.org/t/p/w500";
-const api_key = "?api_key=4a49da4a24dd25aba0ffba3f451d1f60"
+const movieURL = "https://api.themoviedb.org/3/"
 
 // search/movie?api_key=4a49da4a24dd25aba0ffba3f451d1f60&query=X-Men
 
 class Movie extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: false,
+      response: {}};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.id) {
+      return;
+    }
+    const init = {
+      mode: 'cors'
+    };
+    fetch(new Request("movie/" + nextProps.id + "" + api_key))
+      .then((response) => {
+        return Promise.resolve(response);
+      }) 
+      .then((value) => {
+        return value.json();
+      })
+      .then((parsed) => {
+        this.setState({
+          expanded: this.state.expanded,
+          response: parsed});
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   render() {
     const {
@@ -21,23 +52,33 @@ class Movie extends Component {
       backdropPath,
       id,
       genreIds,
-      userRating
+      userRating,
+      index
     } = this.props;
 
     const background = {
         backgroundImage: "url(" + imgURL + backdropPath + ")",
-        backgroundSize: "30% 100%",
-        backgroundRepeat: "no-repeat",
-        
+        backgroundSize: "100% 200%",
+        height: "300px",
+        width: "80%",
+        margin: "auto"
     };
 
-    console.log(background);
+    const expanded = <div >
+        <div style={background}>
+          <h2>{index + "  --  " + title + " (" + releaseDate + ")  -- " }<b>{userRating}</b></h2>
+          <p>{overview}</p>
+          </div>
+      </div>;
+
+    const collapsed = <div>
+        <h2>{index + "  --  " + title + " (" + releaseDate + ")  -- " }<b>{userRating}</b></h2>
+    </div>;
 
     return (
-      <div style={background}>
-          <h2>{title + " (" + releaseDate + ")  -- " }<b>{userRating}</b></h2>
-          <p>{overview}</p>
-      </div>
+      <a onClick={() => {this.setState({expand: !this.state.expand, response: this.state.response})}}>
+        {this.state.expand ? expanded : collapsed}
+      </ a>
     );
   }
 }

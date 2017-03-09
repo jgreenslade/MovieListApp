@@ -11,12 +11,25 @@ const api_key = "?api_key=4a49da4a24dd25aba0ffba3f451d1f60"
 
 // search/movie?api_key=4a49da4a24dd25aba0ffba3f451d1f60&query=X-Men
 
-let response;
-
 class Movies extends Component {
 
-  componentWillMount() {
-    fetch(tmdbURL + "search/movie/" + api_key + "&query=" + this.props.title)
+  constructor(props) {
+    super(props);
+    this.state = {response: {results: []}}
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.title === "") {
+      return;
+    }
+
+    const init = {
+      method: 'GET',
+      headers: new Headers(),
+      mode: 'no-cors',
+      cache: 'default' 
+    };
+    fetch(new Request("search/movie/" + api_key + "&page=1&query=" + nextProps.title))
       .then((response) => {
         return Promise.resolve(response);
       }) 
@@ -24,8 +37,7 @@ class Movies extends Component {
         return value.json();
       })
       .then((parsed) => {
-        response = parsed;
-        this.setState({});
+        this.setState({response: parsed});
       })
       .catch((error) => {
         console.error(error);
@@ -37,7 +49,7 @@ class Movies extends Component {
       title
     } = this.props;
 
-    const allMovies = response ? response.results : null;
+    let response = this.state.response;
 
     return (
       <div className="movie">
@@ -45,7 +57,7 @@ class Movies extends Component {
             <p>wait</p> :
             <div>
             {
-              allMovies.map((movie, index) =>{
+              response.results.map((movie, index) =>{
                return <Movie 
                 title={movie.original_title}
                 releaseDate={movie.release_date}
@@ -56,6 +68,7 @@ class Movies extends Component {
                 genreIds={movie.genre_ids}
                 userRating={movie.vote_average}
                 key={index}
+                index={index + 1}
                />})
             }
             </div>

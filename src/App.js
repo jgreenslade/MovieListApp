@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Movies from "./components/Movies";
+import SearchBar from "./components/SearchBar";
 
 class App extends Component {
   render() {
@@ -11,9 +12,7 @@ class App extends Component {
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
-          <Movies 
-            title="Logan"
-          />
+          <SearchBar />
         </div>
       </div>
     );
