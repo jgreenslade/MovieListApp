@@ -11,7 +11,8 @@ class SearchBar extends Component {
 
   render() {
     const {
-      title
+      title,
+      selectMovie
     } = this.props;
 
     let searchValue = this.state.title;
@@ -27,6 +28,7 @@ class SearchBar extends Component {
         <nav className="panel" style={{position: "absolute", top: "57px", backgroundColor: "white", left: "-1px"}}>
             <Movies
                 title={searchValue}
+                selectMovie={selectMovie}
             />
         </nav>
       </a>

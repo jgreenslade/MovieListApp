@@ -46,7 +46,8 @@ class Movies extends Component {
 
   render() {
     const {
-      title
+      title,
+      selectMovie
     } = this.props;
 
     let response = this.state.response;
@@ -65,7 +66,7 @@ class Movies extends Component {
             userRating={movie.vote_average}
             key={index}
             index={index + 1}
-            selectMovie={(id) => {}}
+            selectMovie={selectMovie}
             />});
 
     return (

@@ -8,10 +8,16 @@ import SearchBar from "./components/SearchBar";
 import 'bulma/css/bulma.css'
 
 function selectMovie(id) {
-
+  this.setState({id: id});
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {id: -1};
+
+    this.selectMovie = selectMovie.bind(this);
+  }
   render() {
     return (
       <div>
@@ -25,7 +31,9 @@ class App extends Component {
           />
         </div>
       </nav>
-      <MoviePage />
+      <MoviePage 
+        id={this.state.id}
+      />
       </div>
     );
   }

@@ -44,7 +44,9 @@ class MoviePage extends Component {
     // const crew = this.state.response.crew;
 
     return (
+     
       <div className="container">
+         {id === -1 ? null :
         <div className="tile is-ancestor">
           <div className="tile is-vertical">
             <div className="tile">
@@ -79,6 +81,7 @@ class MoviePage extends Component {
             </div>
           </div>
         </div>
+         }
       </div>
     );
   }
