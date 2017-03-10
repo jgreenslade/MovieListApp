@@ -65,6 +65,7 @@ class Movies extends Component {
             userRating={movie.vote_average}
             key={index}
             index={index + 1}
+            selectMovie={(id) => {}}
             />});
 
     return (

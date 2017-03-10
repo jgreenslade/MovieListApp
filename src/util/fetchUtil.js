@@ -10,7 +10,6 @@ export function getMovieDetails(id) {
       })
       .then((parsed) => {
         this.setState({
-          expanded: this.state.expanded,
           response: parsed});
       })
       .catch((error) => {

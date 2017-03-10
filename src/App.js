@@ -2,22 +2,31 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import Movies from "./components/Movies";
+import MoviePage from "./components/MoviePage";
 import SearchBar from "./components/SearchBar";
 
 import 'bulma/css/bulma.css'
 
+function selectMovie(id) {
+
+}
+
 class App extends Component {
   render() {
     return (
+      <div>
       <nav className="nav">
         <div className="nav-left">
           <a className="nav-item">
-            <h2>Movie List App V1</h2>
+            <h1 className="title">Movie List App V1</h1>
           </a>
-          <SearchBar />
+          <SearchBar 
+            selectMovie={this.selectMovie}
+          />
         </div>
       </nav>
+      <MoviePage />
+      </div>
     );
   }
 }

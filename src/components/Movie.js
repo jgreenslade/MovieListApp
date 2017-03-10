@@ -16,7 +16,6 @@ class Movie extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false,
       response: {}};
     
     this.getMovieDetails = getMovieDetails.bind(this);
@@ -46,7 +45,8 @@ class Movie extends Component {
       id,
       genreIds,
       userRating,
-      index
+      index,
+      selectMovie
     } = this.props;
 
     const background = {
@@ -57,33 +57,22 @@ class Movie extends Component {
         margin: "auto"
     };
 
-    const expanded = <div >
-        <div style={background}>
-          <h2>{index + "  --  " + title + " (" + releaseDate + ")  -- " }<b>{userRating}</b></h2>
-          <p>{overview}</p>
-          </div>
-      </div>;
-
     let names;
     if (this.state.response.cast) {
       names = this.state.response.cast[0].name + ", " + this.state.response.cast[1].name;
     }
 
-    /*const collapsed = <div>
-        <h2>{index + "  --  " + title + " (" + releaseDate + ")  -- " }<b>{userRating}</b> {names}</h2>
-    </div>;*/
-
-    const collapsed = 
-    <a className="panel-block is-active">
-        <span className="panel-icon">
-          <i className="fa fa-book"></i>
-        </span>
-        <b>{title}</b> {" (" + new Date(releaseDate).getFullYear() + ")  -- " } {names}
-    </a>;
-
     return (
-      <a onClick={() => {this.setState({expand: !this.state.expand, response: this.state.response})}}>
-        {this.state.expand ? expanded : collapsed}
+      <a >
+        <a 
+          className="panel-block is-active"
+          onClick={selectMovie(id)}
+        >
+          <span className="panel-icon">
+            <i className="fa fa-book"></i>
+          </span>
+          <b>{title}</b> {" (" + new Date(releaseDate).getFullYear() + ")  -- " } {names}
+        </a>
       </ a>
     );
   }
